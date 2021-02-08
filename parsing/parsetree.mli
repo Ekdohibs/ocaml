@@ -28,7 +28,7 @@ type constant =
   (* 'c' *)
   | Pconst_string of string * string option
   (* "constant"
-     {delim|other constant|delim}
+     
   *)
   | Pconst_float of string * char option
   (* 3.4 2e5 1.4e-4

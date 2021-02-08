@@ -19,6 +19,9 @@
 type effects = No_effects | Only_generative_effects | Arbitrary_effects
 type coeffects = No_coeffects | Has_coeffects
 
+open Asttypes
+open Lambda
+
 let for_primitive (prim : Lambda.primitive) =
   match prim with
   | Pignore | Pidentity ->
