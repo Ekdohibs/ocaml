@@ -31,8 +31,8 @@ let output_byte oc b =
 let output_array oc v =
   output_string oc "   \"";
   for i = 0 to Array.length v - 1 do
-    output_byte oc (v.(i) land 0xFF);
-    output_byte oc ((v.(i) asr 8) land 0xFF);
+    output_byte oc (v.(i) land 255);
+    output_byte oc ((v.(i) asr 8) land 255);
     if i land 7 = 7 then output_string oc "\\\n    "
   done;
   output_string oc "\""
@@ -40,7 +40,7 @@ let output_array oc v =
 let output_byte_array oc v =
   output_string oc "   \"";
   for i = 0 to Array.length v - 1 do
-    output_byte oc (v.(i) land 0xFF);
+    output_byte oc (v.(i) land 255);
     if i land 15 = 15 then output_string oc "\\\n    "
   done;
   output_string oc "\""
@@ -134,7 +134,7 @@ let output_lexdef ic oc oci header rh tables entry_points trailer =
   if size_groups > 0 && not !Common.quiet_mode then
     Printf.printf "%d additional bytes used for bindings\n" size_groups;
   flush stdout;
-  if Array.length tables.tbl_trans > 0x8000 then raise Table_overflow;
+  if Array.length tables.tbl_trans > 32768 then raise Table_overflow;
   copy_chunk ic oc oci header false;
   let has_refill = output_refill_handler ic oc oci rh in
   output_tables oc tables;
