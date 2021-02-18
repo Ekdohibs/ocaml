@@ -20,24 +20,24 @@ open Lexgen
 (* Code for memory actions  *)
 let code = Table.create 0
 
-(* instructions are 2 8-bits integers, a 255 byte means return *)
+(* instructions are 2 8-bits integers, a 0xff byte means return *)
 
 let emit_int i = Table.emit code i
 
 let ins_mem i c =  match i with
   | Copy (dst, src) -> dst::src::c
-  | Set dst         -> dst::255::c
+  | Set dst         -> dst::0xff::c
 
 
 let ins_tag i c = match i with
   | SetTag (dst, src) -> dst::src::c
-  | EraseTag dst      -> dst::255::c
+  | EraseTag dst      -> dst::0xff::c
 
 
 let do_emit_code c =
   let r = Table.size code in
   List.iter emit_int c ;
-  emit_int 255 ;
+  emit_int 0xff ;
   r
 
 let memory = Hashtbl.create 101
